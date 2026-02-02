@@ -1,1 +1,130 @@
-# anu
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Pyari Anu Jaan</title>
+    <style>
+        body {
+            background-color: #ffe4e1; /* Light Pink Shade */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            color: #d02090;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.5);
+            max-width: 400px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .photo-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .photo-container img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffb6c1;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #yesBtn {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #ffb6c1;
+            color: white;
+            position: absolute;
+        }
+
+        #success-message {
+            display: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff1493;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainCard">
+        <div class="photo-container">
+            <img src="https://via.placeholder.com/150/ffb6c1/ffffff?text=Anu1" alt="Cute Anu 1">
+            <img src="https://via.placeholder.com/150/ff69b4/ffffff?text=Anu2" alt="Cute Anu 2">
+            <img src="https://via.placeholder.com/150/ff1493/ffffff?text=Anu3" alt="Cute Anu 3">
+        </div>
+        
+        <h1>Meri pyari Anu Jaan, will you be my Valentine? ❤️</h1>
+        
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">Yes!</button>
+            <button id="noBtn" onmouseover="moveButton()">No</button>
+        </div>
+    </div>
+
+    <div id="success-message">
+        Yay! I knew you'd say Yes, Anu Jaan! 💖🌹
+    </div>
+
+    <script>
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // Generate random positions within the window
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            document.body.style.backgroundColor = "#ffc0cb";
+            
+            // Optional: Simple alert
+            alert("Best decision ever! I love you! ❤️");
+        }
+    </script>
+
+</body>
+</html># anu
