@@ -8,6 +8,7 @@
         :root {
             --pink: #ffb6c1;
             --dark-pink: #ff69b4;
+            --hot-pink: #ff1493;
             --soft-white: #fffafa;
         }
 
@@ -23,118 +24,112 @@
             text-align: center;
         }
 
-        /* Floating Hearts Animation */
+        /* Floating Hearts Background */
         .heart {
             position: absolute;
-            color: rgba(255, 105, 180, 0.3);
+            color: rgba(255, 105, 180, 0.4);
             animation: float 6s linear infinite;
             z-index: -1;
+            user-select: none;
         }
 
         @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         .card {
             background: var(--soft-white);
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 182, 193, 0.4);
-            border: 5px solid white;
+            padding: 50px 40px;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3);
+            border: 8px solid white;
             max-width: 450px;
             z-index: 10;
-        }
-
-        .photo-gallery {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .photo-gallery img {
-            width: 100px;
-            height: 100px;
-            border-radius: 15px;
-            object-fit: cover;
-            border: 4px solid var(--pink);
-            transition: transform 0.3s;
-        }
-
-        .photo-gallery img:hover {
-            transform: scale(1.1) rotate(5deg);
+            position: relative;
         }
 
         h1 {
             color: #d02090;
-            font-size: 2rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
 
         .btn-container {
-            margin-top: 30px;
-            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            height: 60px;
             position: relative;
         }
 
         button {
-            padding: 12px 30px;
-            font-size: 1.3rem;
+            padding: 15px 35px;
+            font-size: 1.4rem;
             border-radius: 50px;
             border: none;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
 
         #yesBtn {
-            background-color: #ff1493;
+            background-color: var(--hot-pink);
             color: white;
-            transition: transform 0.2s;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         #noBtn {
-            background-color: #888;
+            background-color: #b0b0b0;
             color: white;
-            position: absolute;
-            transition: 0.1s;
+            position: absolute; /* Needed for the runaway effect */
+            z-index: 999;
         }
 
         #success {
             display: none;
+            animation: fadeIn 1s;
         }
 
-        .celebration-img {
-            width: 200px;
-            margin-bottom: 20px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .success-text {
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
 
     <div class="card" id="card">
-        <div class="photo-gallery">
-            <img src="anu1.jpg" alt="Anu 1">
-            <img src="anu2.jpg" alt="Anu 2">
-            <img src="anu3.jpg" alt="Anu 3">
-        </div>
-        
         <h1>Meri pyari Anu Jaan... <br> Will you be my Valentine? ❤️</h1>
         
         <div class="btn-container">
             <button id="yesBtn" onclick="celebrate()">YES! ✨</button>
-            <button id="noBtn" onmouseover="moveNo()">No</button>
+            <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No</button>
         </div>
     </div>
 
     <div id="success">
-        <h1 style="font-size: 3rem;">YAAAY! ❤️❤️❤️</h1>
-        <p style="font-size: 1.5rem;">I am the luckiest person in the world, Anu Jaan!</p>
+        <h1 class="success-text" style="font-size: 4rem;">YAAAY! ❤️</h1>
+        <p class="success-text" style="font-size: 1.8rem;">I am the luckiest person in the world, <br> Anu Jaan! 🌹</p>
     </div>
 
     <script>
-        // Create floating background hearts
+        // Background Heart Generator
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -145,29 +140,31 @@
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 6000);
         }
-        setInterval(createHeart, 400);
+        setInterval(createHeart, 300);
 
+        // The Runaway "No" Button Logic
         function moveNo() {
             const btn = document.getElementById('noBtn');
-            const container = document.body;
             
-            // Calculate random movement within screen padding
-            const padding = 100;
-            const newX = Math.random() * (window.innerWidth - btn.offsetWidth - padding);
-            const newY = Math.random() * (window.innerHeight - btn.offsetHeight - padding);
+            // Calculate random position while keeping it on screen
+            // We use 80% of width/height to ensure it doesn't hide behind edges
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 100) + 50;
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 100) + 50;
             
-            btn.style.left = `${newX}px`;
-            btn.style.top = `${newY}px`;
+            btn.style.position = 'fixed'; // Breaks it out of the card to run anywhere
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
         }
 
+        // The "Yes" Click Logic
         function celebrate() {
             document.getElementById('card').style.display = 'none';
             document.getElementById('success').style.display = 'block';
-            document.body.style.backgroundColor = "#ff69b4";
+            document.body.style.backgroundColor = "#ff1493";
             
-            // Celebration effect: more hearts!
-            for(let i=0; i<50; i++) {
-                setTimeout(createHeart, i * 50);
+            // Create a burst of hearts
+            for(let i=0; i<100; i++) {
+                setTimeout(createHeart, i * 20);
             }
         }
     </script>
